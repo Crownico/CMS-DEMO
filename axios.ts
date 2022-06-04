@@ -1,5 +1,5 @@
-// import axios from "axios";
-const axios = require("axios");
+import axios from "axios/index.js";
+// const axios = require("axios");
 
 // axios({
 //   method: "post",
@@ -25,4 +25,3 @@ axios
   .catch((err) => {
     console.log("failure");
   });
- 
