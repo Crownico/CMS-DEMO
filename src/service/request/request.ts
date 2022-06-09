@@ -1,35 +1,15 @@
 import axios from "axios/index";
-import type {
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse
-} from "axios/index";
+import type { AxiosInstance } from "axios/index";
 import { ElLoading } from "element-plus";
 // 因为是以服务的形式引入 loading，所以要手动引入类型和样式
 import { LoadingInstance } from "element-plus/es/components/loading/src/loading";
 
-// import "element-plus/es/components/loading/style/index"; // 需要 sass-loader，太麻烦了还是全局引入样式吧
+import type { DdRequsetInterceptors, DdRequsetConifg } from "./type";
 
-// 定义拦截器选项的类型，拦截器函数不一定全要用上，所以设计成可选的
-interface DdRequsetInterceptors<T = AxiosResponse> {
-  // 请求的拦截函数，拦截器正常和拦截器失败
-  requestInterceptor?: (config: AxiosRequestConfig) => AxiosRequestConfig;
-  requestInterceptorCatch?: (error: any) => any;
-  // 响应的拦截函数，拦截器正常和拦截器失败
-  responseInterceptor?: (config: T) => T;
-  responseInterceptorCatch?: (error: any) => any;
-}
+// import "element-plus/es/components/loading/style/index"; // 需要 sass-loader，太麻烦了还是全局引入样式吧
 
 // 设置 loading 默认开启
 const DEFAULT_LOADING = true;
-
-// 自定义的配置对象类型
-// 直接使用的类型是我们自定义的类型，所以需要把泛型传递到这，从而可以再往上传到真正需要泛型的接口 DdRequsetInterceptors
-interface DdRequsetConifg<T = AxiosResponse> extends AxiosRequestConfig {
-  // 扩展的拦截器选项，并且拦截器是可选的
-  interceptors?: DdRequsetInterceptors<T>;
-  showLoading?: boolean; // 通过配置控制请求是否需要 loading 效果
-}
 
 class Ddrequest {
   instance: AxiosInstance;
@@ -57,68 +37,72 @@ class Ddrequest {
     }
 
     // 添加全局拦截器
-    this.instance.interceptors.request.use(
-      // 为什么能直接使用 config 对象？因为我们定义的类型继承了原类型，作为它的子类，自然能通过类型检测
-      (config) => {
-        console.log("全局请求拦截成功");
+    // this.instance.interceptors.request.use(
+    //   // 为什么能直接使用 config 对象？因为我们定义的类型继承了原类型，作为它的子类，自然能通过类型检测
+    //   (config) => {
+    //     // console.log("全局请求拦截成功");
 
-        if (this.showLoading) {
-          // 添加 loading
-          this.loadingInstance = ElLoading.service({
-            lock: true, // 遮罩
-            text: "正在请求中...",
-            background: "rgba(0,0,0,0.5)"
-          });
-        }
+    //     if (this.showLoading) {
+    //       // 添加 loading
+    //       this.loadingInstance = ElLoading.service({
+    //         lock: true, // 遮罩
+    //         text: "正在请求中...",
+    //         background: "rgba(0,0,0,0.5)"
+    //       });
+    //     }
 
-        return config;
-      },
-      (err) => console.log(err)
-    );
-    this.instance.interceptors.response.use(
-      (res) => {
-        console.log("全局响应拦截成功");
+    //     return config;
+    //   },
+    //   (err) => console.log(err)
+    // );
+    // this.instance.interceptors.response.use(
+    //   (res) => {
+    //     // console.log("全局响应拦截成功");
 
-        if (this.showLoading) {
-          setTimeout(() => {
-            // 取消 loading
-            this.loadingInstance.close();
-          }, 3000);
-        }
+    //     if (this.showLoading) {
+    //       // 取消 loading
+    //       this.loadingInstance.close();
+    //     }
 
-        // 通知请求失败的方式：自定义状态，假设返回数据结构为：{success: false, returnCode: xxx}
-        switch (res.data.returnCode) {
-          case -1001: // 具体的错误代码需要和服务端对接
-            console.log("请求失败");
-            break;
-          case 200:
-            console.log("请求成功");
-            return res.data; // 请求成功就预处理下请求内容
-          default:
-            break;
-        }
-        return res.data; // 处理一下返回结果，只返回请求数据
-      },
-      (err) => {
-        console.log(err);
+    //     // 通知请求失败的方式：自定义状态，假设返回数据结构为：{success: false, returnCode: xxx}
+    //     // switch (res.data.returnCode) {
+    //     //   case -1001: // 具体的错误代码需要和服务端对接
+    //     //     console.log("请求失败");
+    //     //     break;
+    //     //   case 200:
+    //     //     console.log("请求成功");
+    //     //     return res.data; // 请求成功就预处理下请求内容
+    //     //   default:
+    //     //     break;
+    //     // }
+    //     // return res.data; // 处理一下返回结果，只返回请求数据
+    //     return res;
+    //   },
+    //   (err) => {
+    //     console.log(err);
 
-        // 通知请求失败方式：httpCode
-        switch (err.response.status) {
-          // case err.response.status >= 400 && err.response.status < 500:
-          case 404:
-            // 错误处理
-            console.log(`${err.response.status}: 客户端请求错误`);
-            break;
-          // case err.response.status >= 500 && err.response.status < 600:
-          case 500:
-            // 错误处理
-            console.log(`${err.response.status}: 服务器响应错误`);
-            break;
-          default:
-            break;
-        }
-      }
-    );
+    //     if (this.showLoading) {
+    //       // 取消 loading
+    //       this.loadingInstance.close();
+    //     }
+
+    //     // 通知请求失败方式：httpCode
+    //     // switch (err.response.status) {
+    //     //   // case err.response.status >= 400 && err.response.status < 500:
+    //     //   case 404:
+    //     //     // 错误处理
+    //     //     console.log(`${err.response.status}: 客户端请求错误`);
+    //     //     break;
+    //     //   // case err.response.status >= 500 && err.response.status < 600:
+    //     //   case 500:
+    //     //     // 错误处理
+    //     //     console.log(`${err.response.status}: 服务器响应错误`);
+    //     //     break;
+    //     //   default:
+    //     //     break;
+    //     // }
+    //   }
+    // );
   }
   // 这里对 request() 封装，使其可以配置拦截器函数
   // request(config: DdRequsetConifg) {
@@ -178,7 +162,7 @@ class Ddrequest {
 
           // 将失败传递给用户处理
           reject(err);
-          console.log(err);
+          console.log(err.message, err.config);
         });
     });
   }
