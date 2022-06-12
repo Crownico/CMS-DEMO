@@ -37,72 +37,72 @@ class Ddrequest {
     }
 
     // 添加全局拦截器
-    // this.instance.interceptors.request.use(
-    //   // 为什么能直接使用 config 对象？因为我们定义的类型继承了原类型，作为它的子类，自然能通过类型检测
-    //   (config) => {
-    //     // console.log("全局请求拦截成功");
+    this.instance.interceptors.request.use(
+      // 为什么能直接使用 config 对象？因为我们定义的类型继承了原类型，作为它的子类，自然能通过类型检测
+      (config) => {
+        // console.log("全局请求拦截成功");
 
-    //     if (this.showLoading) {
-    //       // 添加 loading
-    //       this.loadingInstance = ElLoading.service({
-    //         lock: true, // 遮罩
-    //         text: "正在请求中...",
-    //         background: "rgba(0,0,0,0.5)"
-    //       });
-    //     }
+        if (this.showLoading) {
+          // 添加 loading
+          this.loadingInstance = ElLoading.service({
+            lock: true, // 遮罩
+            text: "正在请求中...",
+            background: "rgba(0,0,0,0.5)"
+          });
+        }
 
-    //     return config;
-    //   },
-    //   (err) => console.log(err)
-    // );
-    // this.instance.interceptors.response.use(
-    //   (res) => {
-    //     // console.log("全局响应拦截成功");
+        return config;
+      },
+      (err) => console.log(err)
+    );
+    this.instance.interceptors.response.use(
+      (res) => {
+        // console.log("全局响应拦截成功");
 
-    //     if (this.showLoading) {
-    //       // 取消 loading
-    //       this.loadingInstance.close();
-    //     }
+        if (this.showLoading) {
+          // 取消 loading
+          this.loadingInstance.close();
+        }
 
-    //     // 通知请求失败的方式：自定义状态，假设返回数据结构为：{success: false, returnCode: xxx}
-    //     // switch (res.data.returnCode) {
-    //     //   case -1001: // 具体的错误代码需要和服务端对接
-    //     //     console.log("请求失败");
-    //     //     break;
-    //     //   case 200:
-    //     //     console.log("请求成功");
-    //     //     return res.data; // 请求成功就预处理下请求内容
-    //     //   default:
-    //     //     break;
-    //     // }
-    //     // return res.data; // 处理一下返回结果，只返回请求数据
-    //     return res;
-    //   },
-    //   (err) => {
-    //     console.log(err);
+        // 通知请求失败的方式：自定义状态，假设返回数据结构为：{success: false, returnCode: xxx}
+        // switch (res.data.returnCode) {
+        //   case -1001: // 具体的错误代码需要和服务端对接
+        //     console.log("请求失败");
+        //     break;
+        //   case 200:
+        //     console.log("请求成功");
+        //     return res.data; // 请求成功就预处理下请求内容
+        //   default:
+        //     break;
+        // }
+        return res.data; // 处理一下返回结果，只返回请求数据
+        // return res;
+      },
+      (err) => {
+        console.log(err);
 
-    //     if (this.showLoading) {
-    //       // 取消 loading
-    //       this.loadingInstance.close();
-    //     }
+        if (this.showLoading) {
+          // 取消 loading
+          this.loadingInstance.close();
+        }
 
-    //     // 通知请求失败方式：httpCode
-    //     // switch (err.response.status) {
-    //     //   // case err.response.status >= 400 && err.response.status < 500:
-    //     //   case 404:
-    //     //     // 错误处理
-    //     //     console.log(`${err.response.status}: 客户端请求错误`);
-    //     //     break;
-    //     //   // case err.response.status >= 500 && err.response.status < 600:
-    //     //   case 500:
-    //     //     // 错误处理
-    //     //     console.log(`${err.response.status}: 服务器响应错误`);
-    //     //     break;
-    //     //   default:
-    //     //     break;
-    //     // }
-    //   }
-    // );
+        // 通知请求失败方式：httpCode
+        // switch (err.response.status) {
+        //   // case err.response.status >= 400 && err.response.status < 500:
+        //   case 404:
+        //     // 错误处理
+        //     console.log(`${err.response.status}: 客户端请求错误`);
+        //     break;
+        //   // case err.response.status >= 500 && err.response.status < 600:
+        //   case 500:
+        //     // 错误处理
+        //     console.log(`${err.response.status}: 服务器响应错误`);
+        //     break;
+        //   default:
+        //     break;
+        // }
+      }
+    );
   }
   // 这里对 request() 封装，使其可以配置拦截器函数
   // request(config: DdRequsetConifg) {

@@ -1,24 +1,9 @@
 import ddrequest from "../index";
-
-interface IAccount {
-  name: string;
-  password: string;
-}
-// 登录请求返回数据的类型
-interface ILoginReturnData {
-  id: number;
-  name: string;
-  token: string;
-}
-interface IloginUserInfo {
-  name: string;
-  age: number;
-  roleId: number;
-}
+import { IAccount, ILoginReturnData, IloginUserInfo } from "./type";
 
 // 请求链接url可以定义成枚举类型方便管理
 enum loginURl {
-  accountLogin = "/login",
+  accountLogin = "/adminLogin",
   userInfo = "/userInfo",
   userMenus = "/userMenus"
 }
@@ -47,7 +32,7 @@ export const accountLoginRequest = (account: IAccount) => {
   // });
 };
 
-export const requestUserInfoById = (id: number) => {
+export const requestUserInfoById = (id: string) => {
   return ddrequest.get<IloginUserInfo>({
     url: loginURl.userInfo,
     params: {

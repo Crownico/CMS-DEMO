@@ -35,13 +35,13 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   if (to.path !== "/login") {
-    // 如果想要进入登录页，判断是否有 token
+    // 如果想要进入其他页面，判断是否有 token
     const token = localCache.getCache("token");
-    console.log(token);
-    console.log(!token);
+    // console.log(token);
+    // console.log(!token);
 
     if (!token) {
-      console.log("hhh");
+      console.log("登录失效，请重新登录");
 
       return "/login"; // 没有 token，说明没登录，放行进入登录页面
     }

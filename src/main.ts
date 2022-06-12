@@ -8,7 +8,7 @@ import "element-plus/dist/index.css"; // 全局引入样式
 
 import { setupStore } from "@/store";
 const app = createApp(App);
-
+import "@/mock/index.mjs";
 // 手动将数据从内存中载入vuex
 setupStore();
 // registerComponent(app);
