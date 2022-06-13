@@ -8,7 +8,8 @@ module.exports = defineConfig({
     // 设置代理解决跨域问题
     proxy: {
       "^/api": {
-        target: "http://192.168.139.1:8080",
+        // target: "http://192.168.139.1:8080",
+        target: "http://152.136.185.210:4000",
         // target: "",
         pathRewrite: {
           "^/api": ""

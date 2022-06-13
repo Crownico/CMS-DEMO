@@ -1,11 +1,11 @@
 import ddrequest from "../index";
-import { IAccount, ILoginReturnData, IloginUserInfo } from "./type";
+import { IAccount, IDataType, ILoginReturnData } from "./type";
 
 // 请求链接url可以定义成枚举类型方便管理
 enum loginURl {
-  accountLogin = "/adminLogin",
-  userInfo = "/userInfo",
-  userMenus = "/userMenus"
+  accountLogin = "/login",
+  userInfo = "/users",
+  userMenus = "/role"
 }
 
 // 封装登录的 axios 请求
@@ -14,7 +14,7 @@ export const accountLoginRequest = (account: IAccount) => {
   // const accountJson = JSON.stringify(account);
   // console.log(accountJson);
 
-  return ddrequest.post<ILoginReturnData>({
+  return ddrequest.post<IDataType<ILoginReturnData>>({
     // method: "post",
     url: loginURl.accountLogin,
     data: account
@@ -32,20 +32,22 @@ export const accountLoginRequest = (account: IAccount) => {
   // });
 };
 
-export const requestUserInfoById = (id: string) => {
-  return ddrequest.get<IloginUserInfo>({
-    url: loginURl.userInfo,
-    params: {
-      userId: id
-    }
+export const requestUserInfoById = (id: number) => {
+  return ddrequest.get<IDataType>({
+    url: loginURl.userInfo + `/${id}`,
+    showLoading: false // 把后两个请求的 loading 效果关了，要不然会三个 loading 闪现
+    // params: {
+    //   userId: id
+    // }
   });
 };
 
 export const requestUserMenusByRoleId = (roleId: number) => {
-  return ddrequest.get<any>({
-    url: loginURl.userMenus,
-    params: {
-      roleId: roleId
-    }
+  return ddrequest.get<IDataType>({
+    url: loginURl.userMenus + `/${roleId}` + `/menu`,
+    showLoading: false
+    // params: {
+    //   roleId: roleId
+    // }
   });
 };

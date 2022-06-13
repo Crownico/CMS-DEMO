@@ -4,14 +4,12 @@ export interface IAccount {
 }
 // 登录请求返回数据的类型
 export interface ILoginReturnData {
-  id: string;
+  id: number;
   name: string;
   token: string;
 }
-// 登录用户的个人信息
-export interface IloginUserInfo {
-  name: string;
-  age: number;
-  address: string;
-  roleId: number;
+// 返回的数据类型，因为可能过于复杂，所以设置泛型让用户决定是否明确类型，不明确则默认值为 any
+export interface IDataType<T = any> {
+  code: number;
+  data: T;
 }

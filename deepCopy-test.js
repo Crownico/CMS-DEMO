@@ -36,8 +36,4 @@ console.log(hh);
 console.log(hh.friends.friend_fri.h_foo);
 console.log(hh.friends.friend_fri.h_foo === obj.friends.friend_fri.h_foo);
 
-function foo() {
-  console.log(123);
-}
-
 console.log(typeof []);
