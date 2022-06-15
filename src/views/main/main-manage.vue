@@ -4,10 +4,16 @@
     <div class="common-layout main-content">
       <el-container>
         <!-- 侧栏菜单 -->
-        <el-aside width="200px">Aside</el-aside>
+        <!-- 根据折叠情况设置侧栏宽度 -->
+        <el-aside :width="collapse ? '64px' : '200px'" class="aside">
+          <!-- 将折叠信息传递给 aside -->
+          <nav-menu :isCollapse="collapse"></nav-menu>
+        </el-aside>
         <el-container class="page">
           <!-- header -->
-          <el-header class="page-header">Header</el-header>
+          <el-header class="page-header">
+            <Nav-header @isFold="isFold"></Nav-header>
+          </el-header>
           <!-- main -->
           <el-main class="page-content">Main</el-main>
         </el-container>
@@ -17,17 +23,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import NavHeader from "@/components/nav-header";
+import NavMenu from "@/components/nav-menu";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
+  components: { NavMenu, NavHeader },
   name: "mainManage",
   setup() {
-    return {};
+    const collapse = ref(false);
+    // 获取子组件 nav-header 传递的值
+    const isFold = (isCollapse: boolean) => {
+      // console.log("父接收：" + isCollapse);
+
+      collapse.value = isCollapse;
+    };
+    return { collapse, isFold };
   }
 });
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 .main {
   position: fixed;
   top: 0;
@@ -60,10 +76,10 @@ export default defineComponent({
 .el-aside {
   overflow-x: hidden;
   overflow-y: auto;
-  line-height: 200px;
+  // line-height: 200px;
   text-align: left;
   cursor: pointer;
-  background-color: #001529;
+  background-color: #4f6982;
   transition: width 0.3s linear;
   scrollbar-width: none;
   /* firefox */

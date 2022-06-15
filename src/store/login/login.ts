@@ -54,13 +54,13 @@ const loginState: Module<ILoginState, IRootState> = {
       const userInfoResult = await requestUserInfoById(id);
       console.log(`2. 获取登录用户信息：${userInfoResult}`);
       console.log(userInfoResult);
-
+      const roleId = userInfoResult.data.role.id;
       context.commit("changeUserInfo", userInfoResult.data);
       // 用户登录后，来到首页也需要展示用户信息，所以用户信息一般也需要缓存
       localCache.setCache("userInfo", userInfoResult.data);
 
       // 3. 获取用户权限对应的菜单
-      const userMenusResult = await requestUserMenusByRoleId(id);
+      const userMenusResult = await requestUserMenusByRoleId(roleId);
       console.log(`3. 获取登录用户菜单信息：${userMenusResult}`);
       console.log(userMenusResult);
 

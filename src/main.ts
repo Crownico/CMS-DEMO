@@ -13,5 +13,14 @@ const app = createApp(App);
 setupStore();
 // registerComponent(app);
 // registerApp(app);
+import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  // if (key !== "Menu") {
+  //   app.component(key, component);
+  // } else {
+  //   app.component(key + "element", component);
+  // }
+  app.component(key, component);
+}
 app.use(store).use(router).mount("#app");
