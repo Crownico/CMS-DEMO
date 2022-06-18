@@ -21,6 +21,9 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   // } else {
   //   app.component(key + "element", component);
   // }
+  // 查看图标组件的名称
+  // console.log(key);
+
   app.component(key, component);
 }
 app.use(store).use(router).mount("#app");

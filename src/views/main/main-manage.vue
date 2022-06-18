@@ -15,7 +15,10 @@
             <Nav-header @isFold="isFold"></Nav-header>
           </el-header>
           <!-- main -->
-          <el-main class="page-content">Main</el-main>
+          <el-main class="page-content"
+            >Main
+            <router-view></router-view>
+          </el-main>
         </el-container>
       </el-container>
     </div>

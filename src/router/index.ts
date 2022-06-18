@@ -16,6 +16,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/main",
     name: "main",
     component: () => import("@/views/main/main-manage.vue")
+  },
+  {
+    path: "/:pathMatch(.*)*", // 匹配所有页面
+    name: "notFound",
+    component: () => import("@/views/not-found/not-found.vue")
   }
   // {
   //   path: "/about",

@@ -8,6 +8,7 @@ import {
 } from "@/service/login/login";
 import localCache from "@/utils/cache";
 import router from "@/router";
+import { mapMenusToRoutes } from "@/utils/map-menus";
 
 // 声明类型为 Module，它有两个泛型，第一个是当前模块 state 的类型，第二个是根 state 的类型
 const loginState: Module<ILoginState, IRootState> = {
@@ -29,6 +30,11 @@ const loginState: Module<ILoginState, IRootState> = {
     },
     changeUserMenus(state, userMenus) {
       state.userMenus = userMenus;
+      // 注册用户菜单的路由
+      const routes = mapMenusToRoutes(userMenus);
+      routes.forEach((route) => {
+        router.addRoute("main", route);
+      });
     }
   },
   actions: {
