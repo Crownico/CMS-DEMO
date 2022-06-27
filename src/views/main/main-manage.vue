@@ -15,9 +15,9 @@
             <Nav-header @isFold="isFold"></Nav-header>
           </el-header>
           <!-- main -->
-          <el-main class="page-content"
-            >Main
-            <router-view></router-view>
+          <el-main class="page-content">
+            <!-- 给 main 区域设个背景 -->
+            <div class="page-info">main <router-view></router-view></div>
           </el-main>
         </el-container>
       </el-container>
@@ -55,13 +55,17 @@ export default defineComponent({
   height: 100%;
 }
 
-.main-content,
-.page {
-  height: 100%;
+.main-content {
+  .page {
+    height: 100%;
+  }
 }
 
 .page-content {
   height: calc(100% - 48px);
+  .page-info {
+    background-color: #fff;
+  }
 }
 
 .el-header,
