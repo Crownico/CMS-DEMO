@@ -1,5 +1,6 @@
 import ddrequest from "../index";
-import { IAccount, IDataType, ILoginReturnData } from "./type";
+import { IDataType } from "../type";
+import { IAccount, ILoginReturnData } from "./type";
 
 // 请求链接url可以定义成枚举类型方便管理
 enum loginURl {
