@@ -12,8 +12,9 @@ const app = createApp(App);
 // 手动将数据从内存中载入vuex
 setupStore();
 // registerComponent(app);
-// registerApp(app);
+registerApp(app);
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+import { registerApp } from "./global";
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   // if (key !== "Menu") {

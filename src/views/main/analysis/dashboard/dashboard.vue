@@ -33,12 +33,20 @@
     <!-- 内容 -->
     <div class="content">
       <!-- 表格展示列表数据 -->
-      <el-table :data="userList" border style="width: 100%">
-        <!-- prop 对应了数据对象的 key， label 表示表头-->
-        <el-table-column prop="name" label="姓名" min-width="180" />
-        <el-table-column prop="realname" label="真实姓名" min-width="180" />
-        <el-table-column prop="cellphone" label="电话号码" />
-      </el-table>
+      <dd-table :listData="userList" :propList="propList">
+        <!-- 通过插槽修改 enable 列的数据，columnDate 作用域插槽接收 enable 列的数据 -->
+        <template #enable="columnData">
+          <!-- 转换展示 -->
+          {{ columnData.row.enable === 1 ? "活跃" : "注销" }}
+        </template>
+        <!-- 格式化时间展示 -->
+        <template #createAt="columnData">
+          <span>{{ $filters.formatTime(columnData.row.createAt) }}</span>
+        </template>
+        <template #updateAt="columnData">
+          <span>{{ $filters.formatTime(columnData.row.updateAt) }}</span>
+        </template>
+      </dd-table>
     </div>
   </div>
 </template>
@@ -48,9 +56,10 @@ import { computed, defineComponent } from "vue";
 import { searchFormConfig } from "./config/search.config";
 import PageSearch from "@/components/page-search/index";
 import { useMyStore } from "@/store";
+import DdTable from "@/base-ui/table/index";
 
 export default defineComponent({
-  components: { PageSearch },
+  components: { PageSearch, DdTable },
   name: "dashboard",
   setup() {
     // 收集 dd-form 组件的输入数据
@@ -73,13 +82,40 @@ export default defineComponent({
       }
     });
 
-    // 从 vuex 中获取列表数据
+    // 从 vuex 中获取列表数据，computed 的目的是为了让数据变化后依然能获取到
     const userList = computed(() => store.state.system.userList);
     let totalCount = computed(() => store.state.system.userListCount);
 
-    return { searchFormConfig, userList };
+    // 返回的列表数据注册到 el-table-column 中和列对应所需的参数
+    const propList = [
+      { prop: "name", label: "用户名", minWidth: "100" },
+      { prop: "realname", label: "真实姓名", minWidth: "100" },
+      { prop: "cellphone", label: "手机号码", minWidth: "100" },
+      { prop: "enable", label: "状态", minWidth: "100", slotName: "status" },
+      {
+        prop: "createAt",
+        label: "创建时间",
+        minWidth: "250",
+        slotName: "createAt"
+      },
+      {
+        prop: "updateAt",
+        label: "更新时间",
+        minWidth: "250",
+        slotName: "updateAt"
+      }
+    ];
+
+    return { searchFormConfig, userList, propList };
   }
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="less">
+.dashboard {
+  .content {
+    padding: 20px;
+    border-top: 20px solid #f5f5f5;
+  }
+}
+</style>
