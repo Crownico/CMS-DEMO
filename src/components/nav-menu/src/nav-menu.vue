@@ -184,7 +184,7 @@ export default defineComponent({
     }
   }
 
-  v-deep .el-sub-menu__title {
+  :deep .el-sub-menu__title {
     color: white;
   }
   .el-menu {
@@ -205,7 +205,7 @@ export default defineComponent({
       color: white !important;
     }
   }
-  ::v-deep .el-sub-menu__title {
+  :::deep .el-sub-menu__title {
     // background-color: #001529 !important;
     color: white;
     // justify-content: space-around;
@@ -213,11 +213,11 @@ export default defineComponent({
       margin-left: 20px;
     }
   }
-  ::v-deep .el-sub-menu__title:hover {
+  :::deep .el-sub-menu__title:hover {
     color: black;
     background-color: #eeeae8 !important;
   }
-  ::v-deep span {
+  :::deep span {
     // margin-right: 45px;
   }
 

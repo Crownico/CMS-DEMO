@@ -1,9 +1,12 @@
 export interface ISystemModule {
   userList: any[];
   userListCount: number;
+  roleList: any[];
+  roleListCount: number;
 }
 
 export interface IGetPageListDataPayload {
-  pageUrl: string;
+  // pageUrl: string;
+  pageName: string;
   queryInfo: any;
 }

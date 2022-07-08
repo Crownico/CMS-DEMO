@@ -2,7 +2,7 @@ type IFormType = "input" | "password" | "select" | "datepicker";
 
 // 表单项具体信息类型
 export interface IFormItem {
-  type: IFormType; // 因为表单输入框就这几种，所以使用字面量联合类型
+  type: IFormType; // 因为表单输入框就几种，所以使用字面量联合类型
   label: string;
   field: string;
   placeholder?: any;

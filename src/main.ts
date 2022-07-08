@@ -16,6 +16,14 @@ registerApp(app);
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { registerApp } from "./global";
 
+// 国际化
+import ElementPlus from "element-plus";
+import zhCn from "element-plus/es/locale/lang/zh-cn";
+
+app.use(ElementPlus, {
+  locale: zhCn
+});
+
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   // if (key !== "Menu") {
   //   app.component(key, component);

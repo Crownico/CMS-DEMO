@@ -52,7 +52,10 @@
               <!-- 类型为日期选择器 -->
               <template v-else-if="formItem.type === 'datepicker'">
                 <!-- 日期选择存在一些特殊属性 -->
-                <el-date-picker v-bind="formItem.otherOptions"></el-date-picker>
+                <el-date-picker
+                  v-bind="formItem.otherOptions"
+                  v-model="formData[`${formItem.field}`]"
+                ></el-date-picker>
               </template> </el-form-item
           ></el-col>
         </template>
