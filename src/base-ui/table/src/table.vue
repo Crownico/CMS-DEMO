@@ -53,22 +53,24 @@
   <div class="footer">
     <slot name="footer"
       ><el-pagination
-        v-model:currentPage="currentPage4"
-        v-model:page-size="pageSize4"
-        :page-sizes="[100, 200, 300, 400]"
-        :small="small"
-        :disabled="disabled"
-        :background="background"
+        v-model:currentPage="paginationInfo.currentPage"
+        v-model:pageSize="paginationInfo.pageSize"
+        :page-sizes="[2, 4, 6]"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="400"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
+        :page-count="
+          listCount % paginationInfo.pageSize == 0
+            ? listCount / paginationInfo.pageSize
+            : Math.floor(listCount / paginationInfo.pageSize) + 1
+        "
+        :total="listCount"
+        @update:page-size="handlePageSizeChange"
+        @update:current-page="handleCurrentPageChange"
     /></slot>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType, ref } from "vue";
 
 export default defineComponent({
   name: "DdTabel",
@@ -82,6 +84,11 @@ export default defineComponent({
       type: Array,
       required: true
     },
+    // 列表数据长度
+    listCount: {
+      type: Number,
+      default: 0
+    },
     // 使列表数据和列对应的参数
     propList: {
       type: Array as PropType<any[]>,
@@ -94,16 +101,34 @@ export default defineComponent({
     showCheckBoxColumn: {
       type: Boolean,
       default: false
+    },
+    paginationInfo: {
+      type: Object as PropType<{ pageSize: number; currentPage: number }>,
+      required: true
     }
   },
-  emits: ["selectionChange"],
+  emits: ["selectionChange", "pageSizeChange", "currentPageChange"],
   setup(props, { emit }) {
     const select = (selection: any) => {
       console.log(selection);
       // 将选中的数据发送出去给用户使用
       emit("selectionChange", selection);
     };
-    return { select };
+    // 监听 pageSize 的改变
+    const handlePageSizeChange = (pageSize: number) => {
+      // 将改变传递出去作为参数请求服务器
+      emit("pageSizeChange", pageSize);
+    };
+    // 监听 currentPage 的改变
+    const handleCurrentPageChange = (currentPage: number) => {
+      emit("currentPageChange", currentPage);
+    };
+
+    return {
+      select,
+      handlePageSizeChange,
+      handleCurrentPageChange
+    };
   }
 });
 </script>

@@ -17,7 +17,7 @@
           <!-- main -->
           <el-main class="page-content">
             <!-- 给 main 区域设个背景 -->
-            <div class="page-info">main <router-view></router-view></div>
+            <div class="page-info"><router-view></router-view></div>
           </el-main>
         </el-container>
       </el-container>

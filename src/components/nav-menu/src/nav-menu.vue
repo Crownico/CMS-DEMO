@@ -51,45 +51,45 @@
               :key="itemChildren.id"
             >
               <!-- 二级菜单中的菜单是否是一级菜单 -->
-              <template v-if="!itemChildren.children">
-                <el-menu-item
-                  :index="'' + itemChildren.id"
-                  @click="handleClick(itemChildren)"
-                >
-                  <!-- <el-icon>
+              <!-- <template v-if="!itemChildren.children"> -->
+              <el-menu-item
+                :index="'' + itemChildren.id"
+                @click="handleClick(itemChildren)"
+              >
+                <!-- <el-icon>
                     <Menu />
                   </el-icon> -->
-                  <span> {{ itemChildren.name }}</span>
-                </el-menu-item>
-              </template>
+                <span> {{ itemChildren.name }}</span>
+              </el-menu-item>
+              <!-- </template> -->
 
               <!-- 二级菜单中是否是二级菜单 -->
-              <template v-else>
+              <!-- <template v-else>
                 <el-sub-menu :index="itemChildren.id + ''">
-                  <template #title>
-                    <!-- <el-icon>
+                  <template #title> -->
+              <!-- <el-icon>
                       <location />
                     </el-icon> -->
-                    <span>{{ itemChildren.name }}</span>
+              <!-- <span>{{ itemChildren.name }}</span>
                   </template>
 
                   <template
                     v-for="itemGrandChildren in itemChildren.children"
                     :key="itemGrandChildren.id"
-                  >
-                    <!-- 假设没有第四级菜单 -->
-                    <el-menu-item
+                  > -->
+              <!-- 假设没有第四级菜单 -->
+              <!-- <el-menu-item
                       :index="itemGrandChildren.id + ''"
                       @click="handleClick(itemGrandChildren)"
-                    >
-                      <!-- <el-icon>
+                    > -->
+              <!-- <el-icon>
                         <Menu />
                       </el-icon> -->
-                      <span> {{ itemGrandChildren.name }}</span>
+              <!-- <span> {{ itemGrandChildren.name }}</span>
                     </el-menu-item>
                   </template>
                 </el-sub-menu>
-              </template>
+              </template> -->
             </template>
           </el-sub-menu>
         </template>

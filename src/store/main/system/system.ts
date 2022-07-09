@@ -28,7 +28,7 @@ const systemModule: Module<ISystemModule, IRootState> = {
     },
     pageListCountData(state) {
       return (pageName: string) => {
-        return (state as any)[`${pageName}List`];
+        return (state as any)[`${pageName}ListCount`];
       };
     }
   },
