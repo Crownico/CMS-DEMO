@@ -1,9 +1,9 @@
 <template>
   <div class="dd-form">
     <!-- 标题插槽 -->
-    <div class="hearder">
-      <slot name="hearder">
-        <h1>标题</h1>
+    <div class="header">
+      <slot name="header">
+        <h2>标题</h2>
       </slot>
     </div>
     <el-form :label-width="labelWidth">
@@ -78,6 +78,10 @@ export default defineComponent({
   name: "DdForm",
   // 作为“子组件”需要接收的配置信息
   props: {
+    // title: {
+    //   type: String,
+    //   default: "标题"
+    // },
     // 接收页面组件传递的自定义变量获取表单输入数据
     // formData: {
     //   type: Object,
@@ -147,10 +151,10 @@ export default defineComponent({
 .dd-form {
   display: flex;
   flex-flow: column nowrap;
-  .hearder {
+  .header {
     display: flex;
     justify-content: flex-start;
-    padding-left: 4em;
+    padding-left: 2em;
   }
   .footer {
     display: flex;

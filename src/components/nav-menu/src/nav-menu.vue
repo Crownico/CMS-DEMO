@@ -37,7 +37,7 @@
               <!-- <i :class="item.icon"></i> -->
               <!-- <div ref="icon1" icon="123"> -->
               <el-icon>
-                <component :is="icon(item.icon)" />
+                <component :is="elIconFormat(item.icon)" />
 
                 <!-- <component :is="`Menu`"></component> -->
               </el-icon>
@@ -100,6 +100,7 @@
 
 <script lang="ts">
 import { useMyStore } from "@/store";
+import elIconFormat from "@/utils/icon-format";
 import { computed, defineComponent } from "vue";
 import { useRouter } from "vue-router";
 
@@ -128,16 +129,16 @@ export default defineComponent({
     // });
 
     // 一级菜单图标组件
-    const icon = (iconStr: string) => {
-      // 裁剪数组去掉 el-icon 前缀
-      const iconStrArr = iconStr.split("-").slice(2);
-      // 将 iconStrArr 数组元素每个首字母大写
-      const temp = iconStrArr.map((item: string) => {
-        return item.replace(/^\w/, (c: string) => c.toUpperCase());
-      });
-      // 将 temp 数组元素拼接成字符串
-      return temp.join("");
-    };
+    // const icon = (iconStr: string) => {
+    //   // 裁剪数组去掉 el-icon 前缀
+    //   const iconStrArr = iconStr.split("-").slice(2);
+    //   // 将 iconStrArr 数组元素每个首字母大写
+    //   const temp = iconStrArr.map((item: string) => {
+    //     return item.replace(/^\w/, (c: string) => c.toUpperCase());
+    //   });
+    //   // 将 temp 数组元素拼接成字符串
+    //   return temp.join("");
+    // };
 
     const router = useRouter();
     // 点击菜单路由跳转
@@ -151,7 +152,7 @@ export default defineComponent({
     };
     return {
       userMenus,
-      icon,
+      elIconFormat,
       handleClick
     };
   }

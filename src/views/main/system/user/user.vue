@@ -40,7 +40,14 @@
         ref="pageContentRef"
         :pageName="'user'"
         :contentTableConfig="contentTableConfig"
-      ></page-content>
+      >
+        <template #enable="columnData">
+          <!-- 转换展示 -->
+          <el-button type="success" plain>{{
+            columnData.row.enable === 1 ? "活跃" : "注销"
+          }}</el-button>
+        </template>
+      </page-content>
     </div>
   </div>
 </template>

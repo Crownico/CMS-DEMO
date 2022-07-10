@@ -3,6 +3,8 @@ export interface ISystemModule {
   userListCount: number;
   roleList: any[];
   roleListCount: number;
+  menuList: any[];
+  menuListCount: number;
 }
 
 export interface IGetPageListDataPayload {

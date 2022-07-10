@@ -1,16 +1,53 @@
 <template>
   <div class="menu">
-    <h2>menu</h2>
+    <div class="content">
+      <page-content
+        ref="pageContentRef"
+        pageName="menu"
+        :contentTableConfig="contentTableConfig"
+      >
+        <!-- 菜单icon 插槽 -->
+        <template #icon="columnData">
+          <el-icon>
+            <component
+              :is="`${elIconFormat(columnData.row.icon) + ''}`"
+            /> </el-icon
+          >&nbsp;
+          <span> {{ elIconFormat(columnData.row.icon) }}</span>
+        </template>
+        <!-- 类型插槽 -->
+        <template #type="columnData">
+          <el-tag class="ml-2" type="success">
+            {{ `类型：${columnData.row.type}` }}</el-tag
+          >
+        </template>
+      </page-content>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import PageContent from "@/components/page-content/src/page-content.vue";
+import { contentTableConfig } from "./config/content.config";
+import usePageSearch from "@/hooks/usePageSearch";
+import elIconFormat from "@/utils/icon-format";
 
 export default defineComponent({
+  components: { PageContent },
   name: "menu",
   setup() {
-    return {};
+    // 调用 page-content 发送请求获取数据
+    const [pageContentRef, handleQueryClick, handleResetClick] =
+      usePageSearch();
+
+    return {
+      contentTableConfig,
+      handleQueryClick,
+      pageContentRef,
+      handleResetClick,
+      elIconFormat
+    };
   }
 });
 </script>

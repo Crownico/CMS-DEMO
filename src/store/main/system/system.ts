@@ -10,7 +10,9 @@ const systemModule: Module<ISystemModule, IRootState> = {
       userList: [],
       userListCount: 0,
       roleList: [],
-      roleListCount: 0
+      roleListCount: 0,
+      menuList: [],
+      menuListCount: 0
     };
   },
   getters: {
@@ -44,6 +46,12 @@ const systemModule: Module<ISystemModule, IRootState> = {
     },
     changeRoleListCount(state, totalCount: number) {
       state.roleListCount = totalCount;
+    },
+    changeMenuList(state, menuList: any[]) {
+      state.menuList = menuList;
+    },
+    changeMenuListCount(state, totalCount: number) {
+      state.menuListCount = totalCount;
     }
   },
   actions: {
@@ -62,6 +70,9 @@ const systemModule: Module<ISystemModule, IRootState> = {
           break;
         case "role":
           pageUrl = "/role/list";
+          break;
+        case "menu":
+          pageUrl = "/menu/list";
           break;
         default:
           break;

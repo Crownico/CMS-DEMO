@@ -3,7 +3,9 @@
   <div class="header">
     <slot name="header">
       <!-- 标题 -->
-      <div class="title">{{ title }}</div>
+      <div class="title">
+        <span>{{ title }}</span>
+      </div>
       <!-- 表头的操作 -->
       <div class="handler">
         <slot name="headerHandler">
@@ -42,7 +44,7 @@
             <!-- 动态设置插槽名，并且设置作用域插槽将数据传递出去给插槽使用者 -->
             <slot :name="column.prop" :row="scope.row">
               <!-- 其他用户没有指定修改的数据列默认展示 -->
-              {{ scope.row[column.prop] }}
+              <span>{{ scope.row[column.prop] }}</span>
             </slot>
           </template></el-table-column
         ></template
@@ -50,12 +52,12 @@
     </el-table>
   </div>
   <!-- 表 footer -->
-  <div class="footer">
+  <div class="footer" v-if="showFooter">
     <slot name="footer"
       ><el-pagination
         v-model:currentPage="paginationInfo.currentPage"
         v-model:pageSize="paginationInfo.pageSize"
-        :page-sizes="[2, 4, 6]"
+        :page-sizes="[10, 15, 20]"
         layout="total, sizes, prev, pager, next, jumper"
         :page-count="
           listCount % paginationInfo.pageSize == 0
@@ -70,7 +72,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, PropType } from "vue";
 
 export default defineComponent({
   name: "DdTabel",
@@ -101,6 +103,10 @@ export default defineComponent({
     showCheckBoxColumn: {
       type: Boolean,
       default: false
+    },
+    showFooter: {
+      type: Boolean,
+      default: true
     },
     paginationInfo: {
       type: Object as PropType<{ pageSize: number; currentPage: number }>,

@@ -1,11 +1,13 @@
 <template>
   <div class="page-content">
     <dd-table
+      :title="contentTableConfig.title"
       :listData="listData"
       :listCount="listCount"
       :propList="contentTableConfig.propList"
       :showIndexColumn="contentTableConfig.showIndexColumn"
       :showCheckBoxColumn="contentTableConfig.showCheckBoxColumn"
+      :showFooter="contentTableConfig.showFooter"
       :paginationInfo="paginationInfo"
       @pageSizeChange="getPageSize"
       @currentPageChange="getCurrentPage"
@@ -29,6 +31,14 @@
         <el-button type="info">编辑</el-button>
         <el-button type="delete">删除</el-button>
       </template>
+
+      <!-- 更定制化展示的数据列 -->
+      <template
+        v-for="column in specificColumn"
+        :key="column.prop"
+        #[column.prop]="columnData"
+        ><slot :name="column.prop" :row="columnData.row"> </slot
+      ></template>
     </dd-table>
   </div>
 </template>
@@ -56,7 +66,7 @@ export default defineComponent({
     const store = useMyStore();
 
     // 发送服务器请求的参数，分页信息，也是请求的数据量
-    const paginationInfo = { pageSize: 2, currentPage: 1 };
+    const paginationInfo = { pageSize: 10, currentPage: 1 };
     // 获取 pageSize，每页数据条数
     const getPageSize = (pageSize: number) => {
       // 更新最新的 pageSize 到请求参数对象中
@@ -99,13 +109,23 @@ export default defineComponent({
       return store.getters[`system/pageListCountData`](props.pageName);
     });
 
+    // 通用的数据列
+    const commonColumn: any[] = ["createAt", "updateAt", "action"];
+    // 过滤到通过数据列，给剩下的列设置插槽方便页面组件进行定制化转换展示
+    const specificColumn = props.contentTableConfig.propList.filter(
+      (item: any) => {
+        return commonColumn.indexOf(item.prop) < 0;
+      }
+    );
+
     return {
       listData,
       getPageData,
       listCount,
       getPageSize,
       getCurrentPage,
-      paginationInfo
+      paginationInfo,
+      specificColumn
     };
   }
 });

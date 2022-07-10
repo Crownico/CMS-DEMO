@@ -4,8 +4,8 @@
     <dd-form v-bind="searchFormConfig" v-model="formData">
       <!-- 填充头插槽 -->
       <template #header>
-        <div class="heard">
-          <h1>搜索模块</h1>
+        <div class="header">
+          <h2>高级搜索</h2>
         </div>
       </template>
       <!-- 填充按钮插槽 -->

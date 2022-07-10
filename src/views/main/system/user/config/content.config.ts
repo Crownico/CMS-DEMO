@@ -1,6 +1,7 @@
 import { IContentTableConfig } from "@/components/page-content/src/type";
 
 export const contentTableConfig: IContentTableConfig = {
+  title: "用户列表",
   // el-table-column 列参数
   propList: [
     { prop: "name", label: "用户名", minWidth: "100" },
