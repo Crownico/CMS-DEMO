@@ -25,6 +25,7 @@ export const contentTableConfig: IContentTableConfig = {
   showIndexColumn: false,
   showSelectColumn: false,
   childrenProps: {
+    // 该对象的属性将绑定到 el-table 上，开启数据树形展示
     rowKey: "id",
     treeProp: {
       children: "children"

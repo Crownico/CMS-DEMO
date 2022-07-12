@@ -1,18 +1,29 @@
-import { getPageListData } from "@/service/main/system/system";
+import {
+  deletePageRowData,
+  getPageListData
+} from "@/service/main/system/system";
 import { IRootState } from "@/store/type";
 import { Module } from "vuex";
-import { IGetPageListDataPayload, ISystemModule } from "./type";
+import {
+  IDeletePageDataPayload,
+  IGetPageListDataPayload,
+  ISystemModule
+} from "./type";
 
 const systemModule: Module<ISystemModule, IRootState> = {
   namespaced: true,
   state() {
     return {
-      userList: [],
-      userListCount: 0,
+      usersList: [],
+      usersListCount: 0,
       roleList: [],
       roleListCount: 0,
       menuList: [],
-      menuListCount: 0
+      menuListCount: 0,
+      goodsList: [],
+      goodsListCount: 0,
+      departmentList: [],
+      departmentListCount: 0
     };
   },
   getters: {
@@ -35,11 +46,11 @@ const systemModule: Module<ISystemModule, IRootState> = {
     }
   },
   mutations: {
-    changeUserList(state, userList: any[]) {
-      state.userList = userList;
+    changeUsersList(state, usersList: any[]) {
+      state.usersList = usersList;
     },
-    changeUserListCount(state, totalCount: number) {
-      state.userListCount = totalCount;
+    changeUsersListCount(state, totalCount: number) {
+      state.usersListCount = totalCount;
     },
     changeRoleList(state, roleList: any[]) {
       state.roleList = roleList;
@@ -52,10 +63,22 @@ const systemModule: Module<ISystemModule, IRootState> = {
     },
     changeMenuListCount(state, totalCount: number) {
       state.menuListCount = totalCount;
+    },
+    changeGoodsList(state, goodsList: any[]) {
+      state.goodsList = goodsList;
+    },
+    changeGoodsListCount(state, totalCount: number) {
+      state.goodsListCount = totalCount;
+    },
+    changeDepartmentList(state, departmentList: any[]) {
+      state.departmentList = departmentList;
+    },
+    changeDepartmentListCount(state, totalCount: number) {
+      state.departmentListCount = totalCount;
     }
   },
   actions: {
-    // getUser(){}, 因为请求类似，所以我们getUser，而是采用一个更通用的 action
+    // getUser(){}, 因为请求类似，所以我们不根据具体页面 getData，而是采用一个多页面更通用的 action
     async getPageListAction({ commit }, payload: IGetPageListDataPayload) {
       console.log(payload);
 
@@ -65,7 +88,7 @@ const systemModule: Module<ISystemModule, IRootState> = {
       // const pageUrl = `/${pageName}/list`;
       let pageUrl = "";
       switch (payload.pageName) {
-        case "user":
+        case "users":
           pageUrl = "/users/list";
           break;
         case "role":
@@ -73,6 +96,12 @@ const systemModule: Module<ISystemModule, IRootState> = {
           break;
         case "menu":
           pageUrl = "/menu/list";
+          break;
+        case "goods":
+          pageUrl = "/goods/list";
+          break;
+        case "department":
+          pageUrl = "/department/list";
           break;
         default:
           break;
@@ -82,7 +111,7 @@ const systemModule: Module<ISystemModule, IRootState> = {
       // totalCount 是数据条目总数用来分页的
       // const { list, totalCount } = await getPageListData(
       const pageResult = await getPageListData(pageUrl, payload.queryInfo);
-      console.log(pageResult);
+      // console.log(pageResult);
 
       // 3. 将数据保存到 state 中
       const { list, totalCount } = pageResult.data;
@@ -94,6 +123,27 @@ const systemModule: Module<ISystemModule, IRootState> = {
       // commit("changeUserListCount", totalCount);
       commit(`change${changePageName}List`, list);
       commit(`change${changePageName}ListCount`, totalCount);
+    },
+
+    // 列表删除行数据
+    async deletePageDataAction({ dispatch }, payload: IDeletePageDataPayload) {
+      // 从参数中获取 pageName 和要删除的行数据，页面名称是要拼接成对应的删除 url
+      const { pageName, rowData } = payload;
+      // 拼接处删除 url
+      const deleteUrl = `/${pageName}/${rowData.id}`;
+      // 调用 service 发送真正的网络请求
+      const res = await deletePageRowData(deleteUrl);
+      console.log(res);
+
+      // 重新请求最新的数据
+      // 优化：这里查询条件写死了，发送默认的是搜索请求；应该获取用户搜索输入框中的数据发送请求查询最新数据
+      dispatch("getPageListAction", {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      });
     }
   }
 };

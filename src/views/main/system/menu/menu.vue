@@ -17,7 +17,21 @@
         </template>
         <!-- 类型插槽 -->
         <template #type="columnData">
-          <el-tag class="ml-2" type="success">
+          <el-tag class="ml-2" type="success" v-if="columnData.row.type === 1">
+            {{ `类型：${columnData.row.type}` }}</el-tag
+          >
+          <el-tag
+            class="ml-2"
+            type="warning"
+            v-else-if="columnData.row.type === 2"
+          >
+            {{ `类型：${columnData.row.type}` }}</el-tag
+          >
+          <el-tag
+            class="ml-2"
+            type="danger"
+            v-else-if="columnData.row.type === 3"
+          >
             {{ `类型：${columnData.row.type}` }}</el-tag
           >
         </template>

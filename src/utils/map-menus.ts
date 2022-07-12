@@ -87,6 +87,7 @@ import { RouteRecordRaw } from "vue-router";
 
 let firstMenu: any = null;
 
+// 动态路由
 export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   const routes: RouteRecordRaw[] = [];
 
@@ -119,4 +120,22 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   _recurseGetRoute(userMenus);
 
   return routes;
+}
+
+// 获取账号所有权限，也就是获取所有 children 字段下的 url
+export function mapMenusToPermissions(userMenus: any[]) {
+  const permissions: string[] = [];
+
+  const _recurseGetPermission = (menus: any[]) => {
+    for (const menu of menus) {
+      if (menu.type === 1 || menu.type === 2) {
+        _recurseGetPermission(menu.children ?? []);
+      } else if (menu.type === 3) {
+        permissions.push(menu.permission);
+      }
+    }
+  };
+  _recurseGetPermission(userMenus);
+
+  return permissions;
 }

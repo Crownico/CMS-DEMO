@@ -1,13 +1,9 @@
 <template>
   <div class="page-content">
     <dd-table
-      :title="contentTableConfig.title"
       :listData="listData"
       :listCount="listCount"
-      :propList="contentTableConfig.propList"
-      :showIndexColumn="contentTableConfig.showIndexColumn"
-      :showCheckBoxColumn="contentTableConfig.showCheckBoxColumn"
-      :showFooter="contentTableConfig.showFooter"
+      v-bind="contentTableConfig"
       :paginationInfo="paginationInfo"
       @pageSizeChange="getPageSize"
       @currentPageChange="getCurrentPage"
@@ -27,9 +23,26 @@
         <span>{{ $filters.formatTime(columnData.row.updateAt) }}</span>
       </template>
       <!-- 操作列 -->
-      <template #action>
-        <el-button type="info">编辑</el-button>
-        <el-button type="delete">删除</el-button>
+      <template #action="columnData">
+        <el-button
+          plain
+          v-if="isUpdate"
+          round
+          auto-insert-space
+          size="small"
+          type="primary"
+          @confirm="handleUpdateClick(columnData.row)"
+          >编辑</el-button
+        ><el-popconfirm
+          title="确定删除这行数据吗?"
+          @confirm="handleDeleteClick(columnData.row)"
+        >
+          <template #reference v-if="isDelete">
+            <el-button plain round auto-insert-space size="small" type="danger"
+              >删除</el-button
+            >
+          </template>
+        </el-popconfirm>
       </template>
 
       <!-- 更定制化展示的数据列 -->
@@ -47,6 +60,7 @@
 import { computed, defineComponent, PropType } from "vue";
 import DdTable from "@/base-ui/table";
 import { useMyStore } from "@/store";
+import usePermission from "@/hooks/usePermission";
 
 export default defineComponent({
   name: "pageContent",
@@ -64,6 +78,12 @@ export default defineComponent({
   setup(props) {
     // 查询用户列表，调用 vuex action
     const store = useMyStore();
+
+    // 操作权限判断
+    const isCreate = usePermission(props.pageName, "create");
+    const isUpdate = usePermission(props.pageName, "update");
+    const isDelete = usePermission(props.pageName, "delete");
+    const isQuery = usePermission(props.pageName, "query");
 
     // 发送服务器请求的参数，分页信息，也是请求的数据量
     const paginationInfo = { pageSize: 10, currentPage: 1 };
@@ -109,7 +129,7 @@ export default defineComponent({
       return store.getters[`system/pageListCountData`](props.pageName);
     });
 
-    // 通用的数据列
+    // 数据转换展示：通用的数据列
     const commonColumn: any[] = ["createAt", "updateAt", "action"];
     // 过滤到通过数据列，给剩下的列设置插槽方便页面组件进行定制化转换展示
     const specificColumn = props.contentTableConfig.propList.filter(
@@ -118,6 +138,14 @@ export default defineComponent({
       }
     );
 
+    // 删除、新增、编辑按钮
+    const handleDeleteClick = (item: any) => {
+      // 删除需要发送网络请求，详细逻辑依然在 action 中处理
+      store.dispatch("system/deletePageDataAction", {
+        pageName: props.pageName,
+        rowData: item
+      });
+    };
     return {
       listData,
       getPageData,
@@ -125,7 +153,13 @@ export default defineComponent({
       getPageSize,
       getCurrentPage,
       paginationInfo,
-      specificColumn
+      specificColumn,
+      usePermission,
+      isCreate,
+      isUpdate,
+      isDelete,
+      isQuery,
+      handleDeleteClick
     };
   }
 });

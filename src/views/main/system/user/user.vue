@@ -38,7 +38,7 @@
       <!-- 表格展示列表数据 -->
       <page-content
         ref="pageContentRef"
-        :pageName="'user'"
+        :pageName="'users'"
         :contentTableConfig="contentTableConfig"
       >
         <template #enable="columnData">
@@ -49,6 +49,8 @@
         </template>
       </page-content>
     </div>
+    <!-- 新增用户页面弹窗 -->
+    <page-modal :modalFormConfig="modalFormConfig"></page-modal>
   </div>
 </template>
 
@@ -59,10 +61,12 @@ import PageSearch from "@/components/page-search/index";
 import PageContent from "@/components/page-content/src/page-content.vue";
 import { contentTableConfig } from "./config/content.config";
 import usePageSearch from "@/hooks/usePageSearch";
+import PageModal from "@/components/page-modal/src/page-modal.vue";
+import { modalFormConfig } from "./config/modal.config";
 
 export default defineComponent({
-  components: { PageSearch, PageContent },
-  name: "user",
+  components: { PageSearch, PageContent, PageModal },
+  name: "users",
   setup() {
     // 收集 dd-form 组件的输入数据
     // const fuformData = ref({
@@ -82,7 +86,8 @@ export default defineComponent({
       contentTableConfig,
       handleQueryClick,
       pageContentRef,
-      handleResetClick
+      handleResetClick,
+      modalFormConfig
     };
   }
 });

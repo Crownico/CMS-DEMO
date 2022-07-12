@@ -8,7 +8,7 @@ import {
 } from "@/service/login/login";
 import localCache from "@/utils/cache";
 import router from "@/router";
-import { mapMenusToRoutes } from "@/utils/map-menus";
+import { mapMenusToPermissions, mapMenusToRoutes } from "@/utils/map-menus";
 
 // 声明类型为 Module，它有两个泛型，第一个是当前模块 state 的类型，第二个是根 state 的类型
 const loginState: Module<ILoginState, IRootState> = {
@@ -17,7 +17,8 @@ const loginState: Module<ILoginState, IRootState> = {
     return {
       token: "",
       userInfo: {},
-      userMenus: []
+      userMenus: [],
+      permissions: []
     };
   },
   getters: {},
@@ -35,6 +36,9 @@ const loginState: Module<ILoginState, IRootState> = {
       routes.forEach((route) => {
         router.addRoute("main", route);
       });
+
+      // 调用工具函数，获取当前账号的所有权限 url
+      state.permissions = mapMenusToPermissions(userMenus);
     }
   },
   actions: {

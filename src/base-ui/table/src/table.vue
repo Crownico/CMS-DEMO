@@ -16,11 +16,15 @@
   </div>
   <!-- 表内容 -->
   <div class="table-container">
+    <!-- 滚动 -->
+    <!-- <el-scrollbar max-height="500px"> -->
     <el-table
       :data="listData"
       border
       style="width: 100%"
       @selection-change="select"
+      max-height="75vh"
+      v-bind="childrenProps"
     >
       <!-- checkbox 列 -->
       <el-table-column
@@ -39,7 +43,7 @@
       <!-- prop 对应了数据对象的 key， label 表示表头-->
       <template v-for="column in propList" :key="column.prop">
         <!-- 批量绑定参数 -->
-        <el-table-column v-bind="column" align="center">
+        <el-table-column v-bind="column" align="center" show-overflow-tooltip>
           <template #default="scope">
             <!-- 动态设置插槽名，并且设置作用域插槽将数据传递出去给插槽使用者 -->
             <slot :name="column.prop" :row="scope.row">
@@ -47,9 +51,10 @@
               <span>{{ scope.row[column.prop] }}</span>
             </slot>
           </template></el-table-column
-        ></template
-      >
+        >
+      </template>
     </el-table>
+    <!-- </el-scrollbar> -->
   </div>
   <!-- 表 footer -->
   <div class="footer" v-if="showFooter">
@@ -111,6 +116,10 @@ export default defineComponent({
     paginationInfo: {
       type: Object as PropType<{ pageSize: number; currentPage: number }>,
       required: true
+    },
+    childrenProps: {
+      type: Object,
+      default: () => ({})
     }
   },
   emits: ["selectionChange", "pageSizeChange", "currentPageChange"],

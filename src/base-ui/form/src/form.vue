@@ -3,7 +3,7 @@
     <!-- 标题插槽 -->
     <div class="header">
       <slot name="header">
-        <h2>标题</h2>
+        <!-- <h2>标题</h2> -->
       </slot>
     </div>
     <el-form :label-width="labelWidth">
@@ -64,7 +64,7 @@
     <!-- 按钮插槽 -->
     <div class="footer">
       <slot name="footer">
-        <h1>搜索按钮</h1>
+        <!-- <h1>搜索按钮</h1> -->
       </slot>
     </div>
   </div>
@@ -102,7 +102,7 @@ export default defineComponent({
     },
     itemStyle: {
       type: Object,
-      default: () => ({ padding: "10px 40px" })
+      default: () => ({ padding: "10px 40px", "text-align": "justify" })
     },
     colLayout: {
       type: Object,

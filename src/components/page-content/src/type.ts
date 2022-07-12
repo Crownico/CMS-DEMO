@@ -4,6 +4,11 @@ export interface IContentTableConfig {
   showIndexColumn?: boolean;
   showCheckBoxColumn?: boolean;
   showSelectColumn?: boolean;
-  childrenProps?: any;
   showFooter?: boolean;
+  childrenProps?: {
+    rowKey: string;
+    treeProp: {
+      children: any;
+    };
+  };
 }
