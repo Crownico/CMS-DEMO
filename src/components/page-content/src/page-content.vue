@@ -8,6 +8,10 @@
       @pageSizeChange="getPageSize"
       @currentPageChange="getCurrentPage"
     >
+      <!-- 表头插槽 -->
+      <template #headerHandler>
+        <el-button type="primary" @click="handleAddClick">新增</el-button>
+      </template>
       <!-- 通过插槽修改 enable 列的数据，columnDate 作用域插槽接收 enable 列的数据 -->
       <template #enable="columnData">
         <!-- 转换展示 -->
@@ -31,7 +35,7 @@
           auto-insert-space
           size="small"
           type="primary"
-          @confirm="handleUpdateClick(columnData.row)"
+          @click="handleUpdateClick(columnData.row)"
           >编辑</el-button
         ><el-popconfirm
           title="确定删除这行数据吗?"
@@ -61,6 +65,7 @@ import { computed, defineComponent, PropType } from "vue";
 import DdTable from "@/base-ui/table";
 import { useMyStore } from "@/store";
 import usePermission from "@/hooks/usePermission";
+import { emit } from "process";
 
 export default defineComponent({
   name: "pageContent",
@@ -75,7 +80,8 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  emits: ["addBtnClick", "editBtnClick"],
+  setup(props, { emit }) {
     // 查询用户列表，调用 vuex action
     const store = useMyStore();
 
@@ -146,6 +152,12 @@ export default defineComponent({
         rowData: item
       });
     };
+    const handleAddClick = () => {
+      emit("addBtnClick");
+    };
+    const handleUpdateClick = (item: any) => {
+      emit("editBtnClick", item);
+    };
     return {
       listData,
       getPageData,
@@ -159,7 +171,9 @@ export default defineComponent({
       isUpdate,
       isDelete,
       isQuery,
-      handleDeleteClick
+      handleDeleteClick,
+      handleAddClick,
+      handleUpdateClick
     };
   }
 });

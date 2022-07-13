@@ -82,7 +82,7 @@ export default defineComponent({
     //   type: String,
     //   default: "标题"
     // },
-    // 接收页面组件传递的自定义变量获取表单输入数据
+    // 接收页面组件传递的自定义变量获取表单输入数据（用户输入框的输入是到了父组件 page-content 中）
     // formData: {
     //   type: Object,
     //   required: true

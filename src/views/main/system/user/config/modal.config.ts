@@ -17,7 +17,8 @@ export const modalFormConfig: IModalFormConfig = {
       {
         field: "password",
         type: "password",
-        label: "密码"
+        label: "密码",
+        isHidden: false
       },
       {
         field: "cellphone",

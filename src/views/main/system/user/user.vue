@@ -40,6 +40,8 @@
         ref="pageContentRef"
         :pageName="'users'"
         :contentTableConfig="contentTableConfig"
+        @addBtnClick="handleAddClick"
+        @editBtnClick="handleEditClick"
       >
         <template #enable="columnData">
           <!-- 转换展示 -->
@@ -50,12 +52,15 @@
       </page-content>
     </div>
     <!-- 新增用户页面弹窗 -->
-    <page-modal :modalFormConfig="modalFormConfig"></page-modal>
+    <page-modal
+      ref="pageModalRef"
+      :modalFormConfig="modalFormConfig"
+    ></page-modal>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { searchFormConfig } from "./config/search.config";
 import PageSearch from "@/components/page-search/index";
 import PageContent from "@/components/page-content/src/page-content.vue";
@@ -63,6 +68,7 @@ import { contentTableConfig } from "./config/content.config";
 import usePageSearch from "@/hooks/usePageSearch";
 import PageModal from "@/components/page-modal/src/page-modal.vue";
 import { modalFormConfig } from "./config/modal.config";
+import { usePageModal } from "@/hooks/usePageModal";
 
 export default defineComponent({
   components: { PageSearch, PageContent, PageModal },
@@ -79,15 +85,41 @@ export default defineComponent({
     // 调用 page-content 发送请求获取数据
     const [pageContentRef, handleQueryClick, handleResetClick] =
       usePageSearch();
+    // 编辑窗口隐藏密码输入框
+    const editCallback = () => {
+      const passwordFormItem = modalFormConfig.form.formItems.find(
+        (formItem) => formItem.field === "password"
+      );
+      // 注意 isHidden 本身的值就是 false，所以判断 undefined 不能通过 if(passwordFormItem?.isHidden) 来判断
+      if (passwordFormItem?.isHidden != undefined) {
+        passwordFormItem.isHidden = true;
+      }
+    };
+    // 新增窗口重新展示密码输入框
+    const addCallback = () => {
+      const passwordFormItem = modalFormConfig.form.formItems.find(
+        (formItem) => formItem.field === "password"
+      );
+      if (passwordFormItem?.isHidden != undefined) {
+        passwordFormItem.isHidden = false;
+      }
+    };
+    // 调用 hook，弹出新增窗口和编辑窗口的数据回显
+    const [pageModalRef, handleAddClick, handleEditClick] = usePageModal(
+      addCallback,
+      editCallback
+    );
 
-    // 返回的列表数据注册到 el-table-column 中和列对应所需的参数
     return {
       searchFormConfig,
       contentTableConfig,
       handleQueryClick,
       pageContentRef,
       handleResetClick,
-      modalFormConfig
+      modalFormConfig,
+      handleAddClick,
+      handleEditClick,
+      pageModalRef
     };
   }
 });

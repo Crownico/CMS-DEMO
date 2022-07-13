@@ -5,6 +5,8 @@
       :title="modalFormConfig.title"
       width="30%"
       center
+      destroy-on-close
+      lock-scroll
     >
       <dd-form v-bind="modalFormConfig.form" v-model="formData"> </dd-form>
       <template #footer>
@@ -31,15 +33,13 @@ export default defineComponent({
     modalFormConfig: {
       type: Object as PropType<IModalFormConfig>,
       required: true
-    },
-    centerDialogVisible: {
-      type: Boolean,
-      default: true
     }
   },
   setup() {
     const formData = ref();
-    return { formData };
+    const centerDialogVisible = ref(false);
+
+    return { formData, centerDialogVisible };
   }
 });
 </script>
