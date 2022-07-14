@@ -9,6 +9,16 @@ export const contentTableConfig: IContentTableConfig = {
     { prop: "cellphone", label: "手机号码", minWidth: "100" },
     { prop: "enable", label: "状态", minWidth: "100", slotName: "status" },
     {
+      prop: "departmentId",
+      label: "部门",
+      minWidth: "100"
+    },
+    {
+      prop: "roleId",
+      label: "角色",
+      minWidth: "100"
+    },
+    {
       prop: "createAt",
       label: "创建时间",
       minWidth: "250",

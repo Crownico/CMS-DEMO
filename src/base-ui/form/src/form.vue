@@ -45,6 +45,7 @@
                   <el-option
                     v-for="option in formItem.options"
                     :key="option.value"
+                    :label="option.label"
                     :value="option.value"
                   >
                   </el-option></el-select

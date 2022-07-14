@@ -5,6 +5,8 @@ import { ISystemModule } from "./main/system/type";
 export interface IRootState {
   name: string;
   age: number;
+  entireRoleList: any[];
+  entireDepartmentList: any[];
 }
 
 // 子模块 state 的类型

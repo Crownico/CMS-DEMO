@@ -48,7 +48,14 @@
           </template>
         </el-popconfirm>
       </template>
-
+      <!-- 部门id转换成名称展示 -->
+      <template #departmentId="columnData">
+        <span>{{ departmentIdToName(columnData.row.departmentId) }}</span>
+      </template>
+      <!-- 角色id转换成名称展示 -->
+      <template #roleId="columnData">
+        <span>{{ roleIdToName(columnData.row.roleId) }}</span>
+      </template>
       <!-- 更定制化展示的数据列 -->
       <template
         v-for="column in specificColumn"
@@ -65,7 +72,7 @@ import { computed, defineComponent, PropType } from "vue";
 import DdTable from "@/base-ui/table";
 import { useMyStore } from "@/store";
 import usePermission from "@/hooks/usePermission";
-import { emit } from "process";
+import { departmentIdToName, roleIdToName } from "@/utils/idToName";
 
 export default defineComponent({
   name: "pageContent",
@@ -136,7 +143,13 @@ export default defineComponent({
     });
 
     // 数据转换展示：通用的数据列
-    const commonColumn: any[] = ["createAt", "updateAt", "action"];
+    const commonColumn: any[] = [
+      "createAt",
+      "updateAt",
+      "action",
+      "departmentId",
+      "roleId"
+    ];
     // 过滤到通过数据列，给剩下的列设置插槽方便页面组件进行定制化转换展示
     const specificColumn = props.contentTableConfig.propList.filter(
       (item: any) => {
@@ -173,7 +186,9 @@ export default defineComponent({
       isQuery,
       handleDeleteClick,
       handleAddClick,
-      handleUpdateClick
+      handleUpdateClick,
+      departmentIdToName,
+      roleIdToName
     };
   }
 });

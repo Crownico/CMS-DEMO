@@ -21,3 +21,14 @@ export interface IDeletePageDataPayload {
   pageName: string;
   rowData: any;
 }
+
+export interface ICreatePageDataPayload {
+  pageName: string;
+  formData: any;
+}
+
+export interface IEditPageDataPayload {
+  pageName: string;
+  formData: any;
+  rowDataId: string;
+}

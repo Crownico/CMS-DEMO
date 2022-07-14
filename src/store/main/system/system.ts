@@ -1,11 +1,15 @@
 import {
+  createPageData,
   deletePageRowData,
-  getPageListData
+  getPageListData,
+  updatedPageData
 } from "@/service/main/system/system";
 import { IRootState } from "@/store/type";
 import { Module } from "vuex";
 import {
+  ICreatePageDataPayload,
   IDeletePageDataPayload,
+  IEditPageDataPayload,
   IGetPageListDataPayload,
   ISystemModule
 } from "./type";
@@ -137,6 +141,43 @@ const systemModule: Module<ISystemModule, IRootState> = {
 
       // 重新请求最新的数据
       // 优化：这里查询条件写死了，发送默认的是搜索请求；应该获取用户搜索输入框中的数据发送请求查询最新数据
+      dispatch("getPageListAction", {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      });
+    },
+
+    // 添加数据
+    async createPageDataAction({ dispatch }, payload: ICreatePageDataPayload) {
+      console.log(payload);
+      // 拼接或 switch 出增加数据的 url
+      const { pageName, formData } = payload;
+      const pageUrl = `/${pageName}`;
+      // 发送增加一条数据的网络请求
+      await createPageData(pageUrl, formData);
+      // 新增后查询首页数据
+      dispatch("getPageListAction", {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      });
+    },
+
+    // 编辑数据
+    async editPageDataAction({ dispatch }, payload: IEditPageDataPayload) {
+      console.log(payload);
+      const { pageName, formData, rowDataId } = payload;
+      const pageUrl = `/${pageName}/${rowDataId}`;
+      console.log(pageUrl);
+
+      // 发送更新网络请求
+      await updatedPageData(pageUrl, formData);
+      // 更新后查询首页数据
       dispatch("getPageListAction", {
         pageName,
         queryInfo: {
