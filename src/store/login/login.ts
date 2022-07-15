@@ -53,8 +53,10 @@ const loginState: Module<ILoginState, IRootState> = {
 
       // 1.1 从请求结果中获取 token 和 用户信息
       const { id, token } = loginResult.data;
-      // 拿到 token 后发送初始化部门和角色数据的请求。调用 root 模块中的 action
+
+      // 登录成功，拿到 token 后发送初始化部门和角色数据的请求。调用 root 模块中的 action
       context.dispatch("getInitialDataAction", null, { root: true });
+
       // 1.2 提交数据变更到 mutation
       context.commit("changeToken", token);
       // 1.3 将 token 放入本地缓存中
@@ -83,11 +85,12 @@ const loginState: Module<ILoginState, IRootState> = {
       router.push("/main");
     },
     // 手动载入本地缓存数据到 vuex
-    loadLocalLogin({ commit }) {
+    loadLocalLogin({ commit, dispatch }) {
       const token = localCache.getCache("token");
       // console.log(`从缓存中获取的 token：${token}`);
-
       if (token) {
+        // 登录后页面刷新，拿到 token 后发送初始化部门和角色数据的请求。调用 root 模块中的 action
+        dispatch("getInitialDataAction", null, { root: true });
         commit("changeToken", token);
       }
       const userInfo = localCache.getCache("userInfo");

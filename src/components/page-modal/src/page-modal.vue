@@ -9,6 +9,8 @@
       lock-scroll
     >
       <dd-form v-bind="modalFormConfig.form" v-model="formData"> </dd-form>
+      <!-- 设置默认插槽，方便页面插入一些东西定制化弹窗 -->
+      <slot></slot>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="handleCancelClick">取消</el-button>
