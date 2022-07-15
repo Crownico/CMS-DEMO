@@ -1,19 +1,13 @@
 <template>
   <div class="menu">
     <div class="content">
-      <page-content
-        ref="pageContentRef"
-        pageName="menu"
-        :contentTableConfig="contentTableConfig"
-      >
+      <page-content pageName="menu" :contentTableConfig="contentTableConfig">
         <!-- 菜单icon 插槽 -->
         <template #icon="columnData">
           <el-icon>
-            <component
-              :is="`${elIconFormat(columnData.row.icon) + ''}`"
-            /> </el-icon
-          >&nbsp;
-          <span> {{ elIconFormat(columnData.row.icon) }}</span>
+            <component :is="`${elIconFormat(columnData.row.icon) + ''}`" />
+          </el-icon>
+          <!-- <span> {{ elIconFormat(columnData.row.icon) }}</span> -->
         </template>
         <!-- 类型插槽 -->
         <template #type="columnData">
@@ -44,22 +38,19 @@
 import { defineComponent } from "vue";
 import PageContent from "@/components/page-content/src/page-content.vue";
 import { contentTableConfig } from "./config/content.config";
-import usePageSearch from "@/hooks/usePageSearch";
+// import usePageSearch from "@/hooks/usePageSearch";
 import elIconFormat from "@/utils/icon-format";
 
 export default defineComponent({
   components: { PageContent },
-  name: "menu",
+  name: "menus",
   setup() {
     // 调用 page-content 发送请求获取数据
-    const [pageContentRef, handleQueryClick, handleResetClick] =
-      usePageSearch();
+    // const [pageContentRef, handleQueryClick, handleResetClick] =
+    //   usePageSearch();
 
     return {
       contentTableConfig,
-      handleQueryClick,
-      pageContentRef,
-      handleResetClick,
       elIconFormat
     };
   }

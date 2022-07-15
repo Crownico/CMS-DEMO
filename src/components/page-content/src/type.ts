@@ -3,7 +3,6 @@ export interface IContentTableConfig {
   propList: any[];
   showIndexColumn?: boolean;
   showCheckBoxColumn?: boolean;
-  showSelectColumn?: boolean;
   showFooter?: boolean;
   childrenProps?: {
     rowKey: string;

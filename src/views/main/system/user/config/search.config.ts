@@ -1,6 +1,6 @@
 // 配置表单搜索模块的配置文件
 // 导入配置文件规范标准，其实就是类型
-import IForm from "@/base-ui/form/type";
+import IForm from "@/components/page-search/src/type";
 
 // 导出配置对象
 export const searchFormConfig: IForm = {

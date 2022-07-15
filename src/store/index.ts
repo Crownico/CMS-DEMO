@@ -47,7 +47,7 @@ export default store;
 
 export const setupStore = () => {
   store.dispatch("login/loadLocalLogin");
-  store.dispatch("getInitialDataAction");
+  // store.dispatch("getInitialDataAction");
 };
 
 // 对外暴露自己的 useStore 函数，并设置返回的 store 类型为所有 state 的交叉类型

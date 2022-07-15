@@ -48,11 +48,13 @@ const loginState: Module<ILoginState, IRootState> = {
       // console.log("登录", account);
       // 1. 登录请求，调用封装好的登录请求模块
       const loginResult = await accountLoginRequest(account);
-      console.log(`1. 登录请求的结果：${loginResult}`);
+      console.log(`1. 登录请求的结果：`);
       console.log(loginResult);
 
       // 1.1 从请求结果中获取 token 和 用户信息
       const { id, token } = loginResult.data;
+      // 拿到 token 后发送初始化部门和角色数据的请求。调用 root 模块中的 action
+      context.dispatch("getInitialDataAction", null, { root: true });
       // 1.2 提交数据变更到 mutation
       context.commit("changeToken", token);
       // 1.3 将 token 放入本地缓存中
@@ -62,7 +64,7 @@ const loginState: Module<ILoginState, IRootState> = {
 
       // 2. 发送请求获取用户信息
       const userInfoResult = await requestUserInfoById(id);
-      console.log(`2. 获取登录用户信息：${userInfoResult}`);
+      console.log(`2. 获取登录用户信息：`);
       console.log(userInfoResult);
       const roleId = userInfoResult.data.role.id;
       context.commit("changeUserInfo", userInfoResult.data);
@@ -71,7 +73,7 @@ const loginState: Module<ILoginState, IRootState> = {
 
       // 3. 获取用户权限对应的菜单
       const userMenusResult = await requestUserMenusByRoleId(roleId);
-      console.log(`3. 获取登录用户菜单信息：${userMenusResult}`);
+      console.log(`3. 获取登录用户菜单信息：`);
       console.log(userMenusResult);
 
       context.commit("changeUserMenus", userMenusResult.data);
@@ -83,7 +85,7 @@ const loginState: Module<ILoginState, IRootState> = {
     // 手动载入本地缓存数据到 vuex
     loadLocalLogin({ commit }) {
       const token = localCache.getCache("token");
-      console.log(`从缓存中获取的 token：${token}`);
+      // console.log(`从缓存中获取的 token：${token}`);
 
       if (token) {
         commit("changeToken", token);

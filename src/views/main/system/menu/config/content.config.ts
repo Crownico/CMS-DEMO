@@ -23,7 +23,7 @@ export const contentTableConfig: IContentTableConfig = {
     { prop: "action", label: "操作", minWidth: "120", slotName: "handler" }
   ],
   showIndexColumn: false,
-  showSelectColumn: false,
+  showCheckBoxColumn: false,
   childrenProps: {
     // 该对象的属性将绑定到 el-table 上，开启数据树形展示
     rowKey: "id",

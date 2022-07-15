@@ -11,7 +11,7 @@ const ddrequest = new Ddrequest({
 
       // 从 vuex 中或者本地缓存中获取到 token
       const token = localCache.getCache("token");
-      console.log(`实例请求拦截：token:${token}`);
+      // console.log(`实例请求拦截：token:${token}`);
 
       if (token && config.headers) {
         // 将 token 设置到请求头中，也可能会设置在 post 的 data 里携带过去

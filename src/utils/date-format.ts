@@ -12,7 +12,9 @@ export function formatUtcString(
   format: string = DATE_TIME_FORMAT
 ) {
   // 解析 UTC 格式的时间，并且格式化时间显示
-  return dayjs.utc(utcString).format(format);
+  // return dayjs.utc(utcString).format(format);
+  // 默认解析 UTC 时间为 0 时区，北京东八区，需要偏移
+  return dayjs.utc(utcString).utcOffset(8).format(format);
 }
 
 // 格式化时间戳
