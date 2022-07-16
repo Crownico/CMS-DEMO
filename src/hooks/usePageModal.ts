@@ -1,11 +1,12 @@
 import { ref } from "vue";
 import PageModal from "@/components/page-modal";
 
-type callbackFn = () => void;
+type addCallbackFn = () => void;
+type editCallbackFn = (rowData: any) => void;
 
 export function usePageModal(
-  addCallbackFn?: callbackFn,
-  editCallbackFn?: callbackFn
+  addCallbackFn?: addCallbackFn,
+  editCallbackFn?: editCallbackFn
 ) {
   // 将 page-content 的新增按钮和编辑按钮点击后的数据传递给 page-modal
   const pageModalRef = ref<InstanceType<typeof PageModal>>(); // 拿到 page-modal 组件实例
@@ -26,6 +27,8 @@ export function usePageModal(
   };
   // 编辑按钮
   const handleEditClick = (rowData: any) => {
+    console.log(rowData);
+
     if (pageModalRef.value) {
       pageModalRef.value.centerDialogVisible = true;
       // 数据回显
@@ -34,7 +37,7 @@ export function usePageModal(
       pageModalRef.value.editRowDataId = rowData.id;
       pageModalRef.value.titleRef = "编辑";
     }
-    editCallbackFn && editCallbackFn();
+    editCallbackFn && editCallbackFn(rowData);
   };
 
   // 元组类型，注意使用的时候顺序不能错

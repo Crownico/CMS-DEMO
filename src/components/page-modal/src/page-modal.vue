@@ -38,6 +38,10 @@ export default defineComponent({
     pageName: {
       type: String,
       required: true
+    },
+    otherInfo: {
+      type: Object,
+      default: () => ({})
     }
   },
   setup(props) {
@@ -59,14 +63,15 @@ export default defineComponent({
         // 获取输入数据，发送请求
         store.dispatch("system/createPageDataAction", {
           pageName: props.pageName,
-          formData: formData.value
+          // formData: formData.value
+          formData: { ...formData.value, ...props.otherInfo }
         });
       } else if (currentBtnTypeRef.value === "edit") {
         console.log("edit");
         // 获取表单输入和所编辑的这行数据的id，修改就是将当前输入数据覆盖这个 id 的原数据
         store.dispatch("system/editPageDataAction", {
           pageName: props.pageName,
-          formData: formData.value,
+          formData: { ...formData.value, ...props.otherInfo },
           rowDataId: editRowDataId.value
         });
       }
