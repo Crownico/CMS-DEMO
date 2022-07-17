@@ -2,6 +2,7 @@ import { getPageListData } from "@/service/main/system/system";
 import { Store } from "element-plus/es/components/table/src/store";
 import { createStore, useStore } from "vuex";
 import login from "./login/login";
+import dashboard from "./main/analysis/dashboard";
 import system from "./main/system/system";
 import { IRootState, IStoreType } from "./type";
 
@@ -52,7 +53,8 @@ const store = createStore<IRootState>({
   },
   modules: {
     login,
-    system
+    system,
+    dashboard
   }
 });
 export default store;
