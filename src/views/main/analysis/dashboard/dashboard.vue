@@ -6,7 +6,9 @@
         <!-- <base-chart></base-chart> -->
       </el-col>
       <el-col :span="10">
-        <dd-card title="不同城市商品销量"> </dd-card>
+        <dd-card title="不同城市商品销量">
+          <map-echart :map-data="addressGoodsSale"></map-echart>
+        </dd-card>
       </el-col>
       <el-col :span="7">
         <dd-card title="分类商品数量(玫瑰图)"> </dd-card>
@@ -31,12 +33,12 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import DdCard from "@/base-ui/card";
-import { BarEchart, LineEchart } from "@/components/page-echarts";
+import { BarEchart, LineEchart, MapEchart } from "@/components/page-echarts";
 import { useMyStore } from "@/store";
 
 export default defineComponent({
   name: "dashboard",
-  components: { DdCard, BarEchart, LineEchart },
+  components: { DdCard, BarEchart, LineEchart, MapEchart },
   setup() {
     const store = useMyStore();
     // 请求数据
@@ -53,7 +55,18 @@ export default defineComponent({
       }
       return { xLabels, values };
     });
-    return { categoryGoodsSale };
+
+    // 地图：各城市销量
+    const addressGoodsSale = computed(() => {
+      // 获取数据
+      const addressGoodsSaleData = store.state.dashboard.addressGoodsSale;
+      // 过滤数据，传给 options
+      const mapData: any[] = addressGoodsSaleData.map((item: any) => {
+        return { name: item.address, value: item.count };
+      });
+      return mapData;
+    });
+    return { categoryGoodsSale, addressGoodsSale };
   }
 });
 </script>

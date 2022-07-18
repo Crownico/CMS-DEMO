@@ -1,4 +1,9 @@
 import * as echarts from "echarts";
+// import ChinaMapData from "../data/chinaMapData.json";
+import ChinaMapData from "../data/china.json";
+
+// 注册中国地图
+echarts.registerMap("china", ChinaMapData);
 
 export function useECharts(dom: HTMLDivElement) {
   // 初始化 echarts 实例，并配置 option
