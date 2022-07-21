@@ -93,6 +93,3 @@ const options = computed(() => {
 </script>
 
 <style scoped></style>
-
-function convertData(mapData: string[]|undefined): any { throw new
-Error("Function not implemented."); }

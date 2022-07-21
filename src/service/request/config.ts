@@ -1,5 +1,6 @@
 let BASE_URL = "";
 
+// 自动根据环境切换 BASE_URL
 switch (process.env.NODE_ENV) {
   case "development":
     // BASE_URL = "http://ahcheng.top/dev";  /home/multidata
@@ -8,10 +9,12 @@ switch (process.env.NODE_ENV) {
     BASE_URL = "http://152.136.185.210:4000";
     break;
   case "production":
-    BASE_URL = "http://ahcheng.top/prod";
+    // BASE_URL = "http://ahcheng.top/prod";
+    BASE_URL = "http://152.136.185.210:4000";
     break;
   case "test":
-    BASE_URL = "http://ahcheng.top/test";
+    // BASE_URL = "http://ahcheng.top/test";
+    BASE_URL = "http://152.136.185.210:4000";
     break;
   default:
     break;

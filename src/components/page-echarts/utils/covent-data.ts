@@ -9,6 +9,7 @@ interface IData {
   name: string;
   value: number[];
 }
+// 转换拼接好城市名和经纬度及其业务数据
 export const convertData = (mapData: IMapData[]): IData[] => {
   const data: IData[] = [];
   for (const mapDataItem of mapData) {
