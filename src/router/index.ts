@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import AdminLogin from "@/views/login/admin-login.vue";
 import localCache from "@/utils/cache";
+import { firstMenu } from "@/utils/map-menus";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -51,6 +52,12 @@ router.beforeEach((to) => {
       return "/login"; // 没有 token，说明没登录，放行进入登录页面
     }
     // return "/main"; // 已经登录就转发到首页，不让进登录页。
+  }
+
+  // 首页重定向到第一个子菜单
+  if (to.path === "/main") {
+    console.log(firstMenu);
+    return firstMenu.url;
   }
 });
 

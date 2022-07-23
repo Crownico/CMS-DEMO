@@ -9,7 +9,7 @@
     <el-menu
       class="el-menu-vertical"
       :collapse="isCollapse"
-      default-active="2"
+      :default-active="defaultActive"
       collapse-transition
       background-color="#0c2135"
       text-color="#b7bdc3"
@@ -101,8 +101,9 @@
 <script lang="ts">
 import { useMyStore } from "@/store";
 import elIconFormat from "@/utils/icon-format";
-import { computed, defineComponent } from "vue";
-import { useRouter } from "vue-router";
+import { pathMapToMenu } from "@/utils/map-menus";
+import { computed, defineComponent, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 export default defineComponent({
   props: {
@@ -150,10 +151,19 @@ export default defineComponent({
       // 难怪我渲染菜单层级和获取菜单 url 这么难，原来接口的菜单数据不是我现在看到的样子。。
       // router.push(item.url);
     };
+
+    // 当前页面的路由对象
+    const route = useRoute();
+    // 通过工具方法获取当前页面菜单的完整数据
+    const currentMenu = pathMapToMenu(userMenus.value, route.path);
+    // 默认选中的菜单
+    const defaultActive = ref(currentMenu.id + "");
+
     return {
       userMenus,
       elIconFormat,
-      handleClick
+      handleClick,
+      defaultActive
     };
   }
 });

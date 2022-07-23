@@ -108,6 +108,7 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
       if (menu.type === 2) {
         const route = allRoutes.find((route) => route.path === menu.url);
         if (route) routes.push(route);
+        // 保存第一个 url，方便后续重定向
         if (!firstMenu) {
           firstMenu = menu;
         }
@@ -120,6 +121,30 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   _recurseGetRoute(userMenus);
 
   return routes;
+}
+
+export { firstMenu };
+
+// 通过当前页面路径从所有菜单数据中匹配出当前页面完整的菜单数据
+// /main/system/role  -> type === 2 对应menu
+export function pathMapToMenu(
+  userMenus: any[],
+  currentPath: string
+  // breadcrumbs?: IBreadcrumb[]
+): any {
+  for (const menu of userMenus) {
+    if (menu.type === 1) {
+      // 第一层级都是下拉菜单，所以跳过不匹配，我们要匹配的是第二层级的菜单数据
+      const findMenu = pathMapToMenu(menu.children ?? [], currentPath);
+      if (findMenu) {
+        // breadcrumbs?.push({ name: menu.name });
+        // breadcrumbs?.push({ name: findMenu.name });
+        return findMenu;
+      }
+    } else if (menu.type === 2 && menu.url === currentPath) {
+      return menu;
+    }
+  }
 }
 
 // 获取账号所有权限，也就是获取所有 children 字段下的 url
