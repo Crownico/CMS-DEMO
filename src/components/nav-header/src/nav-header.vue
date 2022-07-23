@@ -1,21 +1,35 @@
 <template>
   <div class="nav-header">
     <!-- 折叠侧栏的开关按钮 -->
-    <!-- <el-button type="primary" icon="el-icon-menu" @click="collapse"></el-button> -->
-    <el-icon @click="collapse" size="25px" v-if="isCollapse">
-      <Expand />
-    </el-icon>
-    <el-icon v-else size="25px" @click="collapse">
-      <Fold />
-    </el-icon>
+    <div class="switch">
+      <!-- <el-button type="primary" icon="el-icon-menu" @click="collapse"></el-button> -->
+      <el-icon @click="collapse" size="25px" v-if="isCollapse">
+        <Expand />
+      </el-icon>
+      <el-icon v-else size="25px" @click="collapse">
+        <Fold />
+      </el-icon>
+    </div>
+
+    <div class="content">
+      <!-- 面包屑 -->
+      <dd-breadcrumb :breadcrumbs="breadcrumbs"></dd-breadcrumb>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
+import DdBreadcrumb from "@/base-ui/breadcrumb";
+import { useMyStore } from "@/store";
+import { useRoute } from "vue-router";
+import { pathMapBreadcrumbs } from "@/utils/map-menus";
 
 export default defineComponent({
   name: "navHeader",
+  components: {
+    DdBreadcrumb
+  },
   setup(props, { emit }) {
     // defineEmits 只能用在 <script setup> 中
     // const emit = defineEmits(["isFold"]);
@@ -26,9 +40,20 @@ export default defineComponent({
 
       emit("isFold", isCollapse.value);
     };
+
+    const store = useMyStore();
+    const userMenus = store.state.login.userMenus;
+    // 面包屑数据
+    const breadcrumbs = computed(() => {
+      // 为什么将 route，放到计算属性中？因为面包屑要跟着当前路由对象的变化而拿到最新的数据进行变化
+      const route = useRoute();
+      return pathMapBreadcrumbs(userMenus, route.path);
+    });
+
     return {
       collapse,
-      isCollapse
+      isCollapse,
+      breadcrumbs
     };
   }
 });
@@ -36,6 +61,12 @@ export default defineComponent({
 
 <style scoped lang="less">
 .nav-header {
+  display: flex;
+  align-items: center;
+
+  :deep(.nav-breadcrumb) {
+    margin-left: 1em;
+  }
   .fold-menu {
     font-size: 30px;
     cursor: pointer;

@@ -1,3 +1,4 @@
+import { IBreadcrumb } from "@/base-ui/breadcrumb/type/type";
 import { RouteRecordRaw } from "vue-router";
 
 // path 和 url 的匹配函数
@@ -125,20 +126,27 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
 
 export { firstMenu };
 
+// 面包屑
+export function pathMapBreadcrumbs(userMenus: any[], currentPath: string) {
+  const breadcrumbs: IBreadcrumb[] = [];
+  pathMapToMenu(userMenus, currentPath, breadcrumbs);
+  return breadcrumbs;
+}
+
 // 通过当前页面路径从所有菜单数据中匹配出当前页面完整的菜单数据
 // /main/system/role  -> type === 2 对应menu
 export function pathMapToMenu(
   userMenus: any[],
-  currentPath: string
-  // breadcrumbs?: IBreadcrumb[]
+  currentPath: string,
+  breadcrumbs?: IBreadcrumb[]
 ): any {
   for (const menu of userMenus) {
     if (menu.type === 1) {
       // 第一层级都是下拉菜单，所以跳过不匹配，我们要匹配的是第二层级的菜单数据
       const findMenu = pathMapToMenu(menu.children ?? [], currentPath);
       if (findMenu) {
-        // breadcrumbs?.push({ name: menu.name });
-        // breadcrumbs?.push({ name: findMenu.name });
+        breadcrumbs?.push({ name: menu.name });
+        breadcrumbs?.push({ name: findMenu.name });
         return findMenu;
       }
     } else if (menu.type === 2 && menu.url === currentPath) {
