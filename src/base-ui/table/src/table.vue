@@ -158,9 +158,11 @@ export default defineComponent({
   .title {
     font-size: 20px;
     font-weight: 700;
+    padding-left: 2em;
   }
   .handler {
     align-items: center;
+    padding-right: 2em;
   }
 }
 .footer {

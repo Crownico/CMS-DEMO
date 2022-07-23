@@ -4,11 +4,14 @@
     <div class="common-layout main-content">
       <el-container>
         <!-- 侧栏菜单 -->
-        <!-- 根据折叠情况设置侧栏宽度 -->
-        <el-aside :width="collapse ? '64px' : '200px'" class="aside">
-          <!-- 将折叠信息传递给 aside -->
-          <nav-menu :isCollapse="collapse"></nav-menu>
-        </el-aside>
+        <div class="aside">
+          <!-- 根据折叠情况设置侧栏宽度 -->
+          <el-aside :width="collapse ? '64px' : '200px'">
+            <!-- 将折叠信息传递给 aside -->
+            <nav-menu :isCollapse="collapse"></nav-menu>
+          </el-aside>
+        </div>
+
         <el-container class="page">
           <!-- header -->
           <el-header class="page-header">
@@ -48,13 +51,21 @@ export default defineComponent({
 });
 </script>
 
-<style lang="less">
+<!-- <style lang="less">
+.common-layout {
+  height: 100%;
+}
 .main {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+.aside {
+  height: 100vh;
+  background-color: hsla(209, 64%, 13%, 0.95);
 }
 
 .main-content {
@@ -88,7 +99,7 @@ export default defineComponent({
   // line-height: 200px;
   text-align: left;
   cursor: pointer;
-  background-color: #4f6982;
+  background-color: #edf3f8;
   transition: width 0.3s linear;
   scrollbar-width: none;
   /* firefox */
@@ -104,5 +115,26 @@ export default defineComponent({
   color: #333;
   text-align: center;
   background-color: #f0f2f5;
+}
+</style> -->
+
+<style lang="less" scoped>
+.aside {
+  height: 100vh;
+  background-color: hsla(209, 64%, 13%, 0.95);
+}
+
+:deep(.page-header) {
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.page-content {
+  // color: #333;
+  text-align: center;
+  padding: 0;
+  border: 20px solid #f0f2f5;
+  // background-color: #f0f2f5;
 }
 </style>

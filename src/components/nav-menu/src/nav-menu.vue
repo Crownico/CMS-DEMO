@@ -159,7 +159,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="less">
+<!-- <style scoped lang="less">
 .nav-menu {
   height: 100%;
   color: white;
@@ -174,8 +174,8 @@ export default defineComponent({
     align-items: center;
 
     .img {
-      height: 100%;
       margin: 0 10px;
+      height: 100%;
     }
 
     .title {
@@ -206,7 +206,7 @@ export default defineComponent({
       color: white !important;
     }
   }
-  :::deep .el-sub-menu__title {
+  ::deep .el-sub-menu__title {
     // background-color: #001529 !important;
     color: white;
     // justify-content: space-around;
@@ -214,11 +214,11 @@ export default defineComponent({
       margin-left: 20px;
     }
   }
-  :::deep .el-sub-menu__title:hover {
+  ::deep .el-sub-menu__title:hover {
     color: black;
     background-color: #eeeae8 !important;
   }
-  :::deep span {
+  ::deep span {
     // margin-right: 45px;
   }
 
@@ -240,5 +240,40 @@ export default defineComponent({
 }
 .el-icon-coll-true {
   // margin-left: 37px !important;
+}
+</style> -->
+
+<style lang="less" scoped>
+.nav-menu {
+  height: 100%;
+  color: white;
+  background-color: #001529;
+
+  .logo {
+    display: flex;
+    height: 28px;
+    padding: 12px 10px 8px 10px;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    .img {
+      margin: 0 10px;
+      height: 100%;
+    }
+  }
+}
+
+:deep(.el-sub-menu__title) {
+  display: flex;
+  padding-left: 0px !important;
+  justify-content: center;
+}
+:deep(.el-menu-item) {
+  padding-left: 28px !important;
+  background-color: rgb(11 17 22 / 60%);
+  span {
+    margin: 0 auto;
+  }
 }
 </style>

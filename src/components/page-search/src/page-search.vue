@@ -5,7 +5,7 @@
       <!-- 填充头插槽 -->
       <template #header>
         <div class="header">
-          <h2>高级搜索</h2>
+          <h3>高级搜索</h3>
         </div>
       </template>
       <!-- 填充按钮插槽 -->
@@ -79,4 +79,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.page-search {
+  padding: 20px;
+}
+</style>
