@@ -125,7 +125,7 @@ export default defineComponent({
 }
 
 :deep(.page-header) {
-  height: 40px;
+  height: 50px;
   display: flex;
   align-items: center;
 }

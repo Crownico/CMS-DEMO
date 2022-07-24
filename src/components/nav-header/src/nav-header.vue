@@ -14,6 +14,12 @@
     <div class="content">
       <!-- 面包屑 -->
       <dd-breadcrumb :breadcrumbs="breadcrumbs"></dd-breadcrumb>
+
+      <!-- 右侧导航栏 -->
+      <div class="right-nav-bar">
+        <!-- 用户信息 -->
+        <user-info></user-info>
+      </div>
     </div>
   </div>
 </template>
@@ -24,11 +30,13 @@ import DdBreadcrumb from "@/base-ui/breadcrumb";
 import { useMyStore } from "@/store";
 import { useRoute } from "vue-router";
 import { pathMapBreadcrumbs } from "@/utils/map-menus";
+import UserInfo from "./user-info.vue";
 
 export default defineComponent({
   name: "navHeader",
   components: {
-    DdBreadcrumb
+    DdBreadcrumb,
+    UserInfo
   },
   setup(props, { emit }) {
     // defineEmits 只能用在 <script setup> 中
@@ -62,14 +70,29 @@ export default defineComponent({
 <style scoped lang="less">
 .nav-header {
   display: flex;
+  height: 2em;
+  width: 100%;
   align-items: center;
 
-  :deep(.nav-breadcrumb) {
-    margin-left: 1em;
+  .content {
+    display: flex;
+    flex: 1; // 表示占据整个盒子
+    align-items: center;
+    justify-content: space-between;
+
+    :deep(.nav-breadcrumb) {
+      margin-left: 1em;
+    }
   }
+
   .fold-menu {
     font-size: 30px;
     cursor: pointer;
   }
+}
+
+.right-nav-bar {
+  display: flex;
+  align-items: center;
 }
 </style>
