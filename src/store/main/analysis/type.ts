@@ -3,4 +3,5 @@ export interface IAnalysisModule {
   categoryGoodsSale: any[];
   categoryGoodsFavor: any[];
   addressGoodsSale: any[];
+  topPanelDatas: any[];
 }
